@@ -25,15 +25,24 @@ class Tasks extends Component{
     firebase = Firebase().firestore()
 
     addTask = (e) => {
-        /* this.firebase.collection("tasks").add({
+        e.preventDefault()
+        const [task_name,task_time,task_date] = [
+            e.currentTarget.task_name.value,
+            e.currentTarget.task_time.value,
+            e.currentTarget.task_date.value
+        ]
+        console.log(task_name,task_date,task_time)
+        this.firebase.collection("tasks").add({
             task_name,
             task_time,
+            task_date,
             user: this.props.user
         }).then(data => {
             console.log('ok',data)
+            this.getTask(this.props.user)
         }).catch(data => {
             console.log('error',data)
-        }) */
+        })
     }
 
     getTask = async (user) => {
@@ -42,7 +51,9 @@ class Tasks extends Component{
         let tasks = []
         data.forEach(v => {
             tasks.push(v.data())
+            console.log(v.data())
         })
+        console.log(tasks)
         this.setState({...this.state,tasks})
        }catch(error){
            console.log(error)
@@ -83,17 +94,18 @@ class Tasks extends Component{
                             type="date"
                             fullWidth
                         />
+                        <div className="mt-2 w-50 d-flex justify-content-around">
+                            <Button variant="contained" color="secondary" type="button" onClick={() => this.setState({...this.state,open: false})} >
+                                Cancel
+                            </Button>
+
+                            <Button variant="contained" color="primary" type="submit">
+                                Save
+                            </Button>
+                        </div>
                     </form>
 
-                    <div className="mt-2 w-50 d-flex justify-content-around">
-                        <Button variant="contained" color="secondary" onClick={() => this.setState({...this.state,open: false})} >
-                            Cancel
-                        </Button>
-
-                        <Button variant="contained" color="primary" type="submit">
-                            Save
-                        </Button>
-                    </div>
+                    
                 </DialogContent>
             </Dialog>
 
@@ -117,11 +129,11 @@ class Tasks extends Component{
                     </TableHead>
 
                     <TableBody>
-                        {this.state.tasks.map(v => <TableRow>
+                        {this.state.tasks.map((v,i) => <TableRow key={i}>
 
                                 <TableCell>{v.task_name}</TableCell>
                                 <TableCell>{v.task_time}</TableCell>
-                                <TableCell>{v.date}</TableCell>
+                                <TableCell>{v.task_date}</TableCell>
                                 <TableCell>
                                     <Button variant="contained">
                                         Complete
