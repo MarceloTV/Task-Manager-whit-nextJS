@@ -21,6 +21,11 @@ class Main extends Component{
                     isLogged: true,
                     user: user.uid
                 })
+            }else{
+                this.setState({
+                    isLogged: false,
+                    user: null
+                })
             }
         })
     }

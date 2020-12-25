@@ -24,6 +24,16 @@ class Tasks extends Component{
 
     firebase = Firebase().firestore()
 
+    deleteTask = async (id) => {
+        try{
+            const taskAction = await this.firebase.collection("tasks").doc(id).delete()
+            console.log("ok")
+            this.getTask(this.props.user)
+        }catch(error){
+            console.log(error)
+        }
+    }
+
     addTask = (e) => {
         e.preventDefault()
         const [task_name,task_time,task_date] = [
@@ -50,11 +60,11 @@ class Tasks extends Component{
         const data = await this.firebase.collection("tasks").where("user","==",user).get()
         let tasks = []
         data.forEach(v => {
-            tasks.push(v.data())
+            tasks.push({...v.data(),id: v.id})
             console.log(v.data())
         })
         console.log(tasks)
-        this.setState({...this.state,tasks})
+        this.setState({open: false,tasks})
        }catch(error){
            console.log(error)
        }
@@ -135,7 +145,7 @@ class Tasks extends Component{
                                 <TableCell>{v.task_time}</TableCell>
                                 <TableCell>{v.task_date}</TableCell>
                                 <TableCell>
-                                    <Button variant="contained">
+                                    <Button variant="contained" onClick={() => this.deleteTask(v.id)}>
                                         Complete
                                     </Button>
                                 </TableCell>

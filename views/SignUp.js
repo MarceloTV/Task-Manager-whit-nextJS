@@ -10,6 +10,10 @@ class SignUp extends Component{
 
     handle = (e) => {
         e.preventDefault()
+        if(e.currentTarget.password.value != e.currentTarget.re_password.value){
+            alert("The password aren't equals")
+            return false
+        }
         this.firebase.auth().createUserWithEmailAndPassword(e.currentTarget.email.value,e.currentTarget.password.value)
             .then(data => {
                 console.log(data)
@@ -46,7 +50,7 @@ const inputs = [
     {
         placeholder: 'Re-enter your password',
         type: 'password',
-        name: 're-password'
+        name: 're_password'
     }
 ]
 
