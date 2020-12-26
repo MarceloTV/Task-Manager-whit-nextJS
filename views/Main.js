@@ -30,7 +30,7 @@ class Main extends Component{
         })
 
         Notification.requestPermission().then( data => {
-            //Nothing
+            this.forceUpdate()
         }).catch(err => {
             alert("You need activate the notifications to advert some task")
         })
