@@ -26,7 +26,8 @@ class Tasks extends Component{
 
     checkTasks = null
 
-    deleteTask = async (id) => {
+    deleteTask = async (e,id) => {
+        e.currentTarget.disabled = true
         try{
             const taskAction = await this.firebase.collection("tasks").doc(id).delete()
             console.log("ok")
@@ -44,21 +45,48 @@ class Tasks extends Component{
             e.currentTarget.task_date.value
         ]
 
+        const data_time = {
+            date: task_date.split("-").reverse()[0],
+            month: task_date.split("-").reverse()[1],
+            year: task_date.split("-").reverse()[2],
+            hour: task_time.split(":")[0],
+            minutes: task_time.split(":")[1]
+        }
+
         const time = {
-            hours: new Date().getHours(),
+            hour: new Date().getHours(),
             minutes: new Date().getMinutes(),
-            seconds : new Date().getSeconds(),
             year: new Date().getFullYear(),
-            month: new Date().getMonth(),
+            month: new Date().getMonth() + 1,
             day: new Date().getDate()
         }
 
-        if(new Date() > new Date(`${time.month}-${time.day}-${time.year} ${time.hours}:${time.minutes}:${time.seconds}`)){
-            alert("Type the correct date and time")
+        if(data_time.year < time.year){
+            alert("Put the correct Time")
             return false
+        }else if(data_time.year == time.year){
+            if(data_time.month < time.month){
+                alert("Put the correct Time")
+                return false
+            }else if(data_time.month == time.month){
+                if(data_time.date < time.day){
+                    alert("Put the correct Time")
+                    return false
+                }else if(data_time.date == time.day){
+                    if(data_time.hour < time.hour){
+                        alert("Put the correct Time")
+                        return false
+                    }else  if(data_time.hour == time.hour){
+                        if(data_time.minutes < time.minutes){
+                            alert("Put the correct Time")
+                            return false
+                        }
+                    }
+                }
+            }
         }
         
-        console.log(task_name,task_date,task_time)
+        document.querySelector('#save').disabled = true
         this.firebase.collection("tasks").add({
             task_name,
             task_time,
@@ -66,6 +94,7 @@ class Tasks extends Component{
             user: this.props.user
         }).then(data => {
             console.log('ok',data)
+            document.querySelector('#save').disabled = false
             this.getTask(this.props.user)
         }).catch(data => {
             console.log('error',data)
@@ -77,7 +106,7 @@ class Tasks extends Component{
         const data = await this.firebase.collection("tasks").where("user","==",user).get()
         let tasks = []
         data.forEach(v => {
-            tasks.push({...v.data(),id: v.id})
+            tasks.push({...v.data(),id: v.id,notified: false})
             console.log(v.data())
         })
         console.log(tasks)
@@ -95,18 +124,47 @@ class Tasks extends Component{
     componentDidUpdate(){
         if(Notification.permission != "default" && this.state.tasks != 0){
             this.checkTasks = setInterval(() => {
-                this.state.tasks.forEach(v => {
+                this.state.tasks.forEach((v,i) => {
                     const time = {
-                        hours: new Date().getHours(),
+                        hour: new Date().getHours(),
                         minutes: new Date().getMinutes(),
-                        seconds : new Date().getSeconds(),
                         year: new Date().getFullYear(),
                         month: new Date().getMonth() + 1,
                         day: new Date().getDate()
                     }
+
+                    const data_time = {
+                        date: v.task_date.split("-").reverse()[0],
+                        month: v.task_date.split("-").reverse()[1],
+                        year: v.task_date.split("-").reverse()[2],
+                        hour: v.task_time.split(":")[0],
+                        minutes: v.task_time.split(":")[1]
+                    }
+
+                   if(data_time.year == time.year){
+                        if(data_time.month == time.month){
+                            if(data_time.date == time.day){
+                                if(data_time.hour == time.hour){
+                                    if(data_time.minutes == time.minutes){
+                                        if(!v.notified){
+                                            const notification = new Notification(`${v.task_name} still to be complete`)
+                                            let tasks = this.state.tasks
+                                            tasks[i].notified = true
+                                            this.setState(tasks)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                 })
             },1000)
         }
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.checkTasks)
     }
 
     render(){
@@ -144,7 +202,7 @@ class Tasks extends Component{
                                 Cancel
                             </Button>
 
-                            <Button variant="contained" color="primary" type="submit">
+                            <Button variant="contained" color="primary" type="submit" id="save">
                                 Save
                             </Button>
                         </div>
@@ -180,7 +238,7 @@ class Tasks extends Component{
                                 <TableCell>{v.task_time}</TableCell>
                                 <TableCell>{v.task_date.split("-").reverse().join("-")}</TableCell>
                                 <TableCell>
-                                    <Button variant="contained" onClick={() => this.deleteTask(v.id)}>
+                                    <Button variant="contained" onClick={(e) => this.deleteTask(e,v.id)}>
                                         Complete
                                     </Button>
                                 </TableCell>
