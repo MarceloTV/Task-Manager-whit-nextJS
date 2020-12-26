@@ -23,6 +23,10 @@ class SignUp extends Component{
             })
     }
 
+    componentWillUnmount(){
+        this.firebase = null
+    }
+
     render(){
         this.firebase.auth().onAuthStateChanged(user => {
             if(user){

@@ -24,6 +24,8 @@ class Tasks extends Component{
 
     firebase = Firebase().firestore()
 
+    checkTasks = null
+
     deleteTask = async (id) => {
         try{
             const taskAction = await this.firebase.collection("tasks").doc(id).delete()
@@ -41,6 +43,21 @@ class Tasks extends Component{
             e.currentTarget.task_time.value,
             e.currentTarget.task_date.value
         ]
+
+        const time = {
+            hours: new Date().getHours(),
+            minutes: new Date().getMinutes(),
+            seconds : new Date().getSeconds(),
+            year: new Date().getFullYear(),
+            month: new Date().getMonth(),
+            day: new Date().getDate()
+        }
+
+        if(new Date() > new Date(`${time.month}-${time.day}-${time.year} ${time.hours}:${time.minutes}:${time.seconds}`)){
+            alert("Type the correct date and time")
+            return false
+        }
+        
         console.log(task_name,task_date,task_time)
         this.firebase.collection("tasks").add({
             task_name,
@@ -72,6 +89,24 @@ class Tasks extends Component{
 
     componentDidMount(){
         this.getTask(this.props.user)
+        
+    }
+
+    componentDidUpdate(){
+        if(Notification.permission != "default" && this.state.tasks != 0){
+            this.checkTasks = setInterval(() => {
+                this.state.tasks.forEach(v => {
+                    const time = {
+                        hours: new Date().getHours(),
+                        minutes: new Date().getMinutes(),
+                        seconds : new Date().getSeconds(),
+                        year: new Date().getFullYear(),
+                        month: new Date().getMonth() + 1,
+                        day: new Date().getDate()
+                    }
+                })
+            },1000)
+        }
     }
 
     render(){
@@ -143,7 +178,7 @@ class Tasks extends Component{
 
                                 <TableCell>{v.task_name}</TableCell>
                                 <TableCell>{v.task_time}</TableCell>
-                                <TableCell>{v.task_date}</TableCell>
+                                <TableCell>{v.task_date.split("-").reverse().join("-")}</TableCell>
                                 <TableCell>
                                     <Button variant="contained" onClick={() => this.deleteTask(v.id)}>
                                         Complete
