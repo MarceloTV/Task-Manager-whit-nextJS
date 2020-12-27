@@ -1,3 +1,53 @@
 .header{
     box-shadow: 0 0 10px rgba(0, 0, 0, .5);
 }
+
+.nav{
+    width: 20%;
+}
+
+@media screen and (max-width: 860px){
+    .nav{
+        width: 25%;
+    }
+}
+
+@media screen and (max-width: 690px){
+    .nav{
+        width: 30%;
+    }
+}
+
+@media screen and (max-width: 580px){
+    .nav{
+        width: 35%;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .nav{
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 580px){
+    .nav{
+        width: 35%;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .nav{
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 439px){
+    .header{
+        flex-direction: column !important;
+    }
+    .nav{
+        width: 70%;
+        margin: 10px;
+    }
+}

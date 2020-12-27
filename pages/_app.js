@@ -1,3 +1,4 @@
+//This is the global styles
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/globals.css'    
 

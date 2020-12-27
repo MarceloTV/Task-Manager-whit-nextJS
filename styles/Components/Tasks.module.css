@@ -1,0 +1,29 @@
+@media screen and (max-width: 945px){
+    .appContent{
+        width: 60% !important;
+    }
+}
+
+@media screen and (max-width: 783px){
+    .appContent{
+        width: 70% !important;
+    }
+}
+
+@media screen and (max-width: 670px){
+    .appContent{
+        width: 80% !important;
+    }
+}
+
+@media screen and (max-width: 586px){
+    .appContent{
+        width: 90% !important;
+    }
+}
+
+@media screen and (max-width: 433px){
+    .appContent{
+        width: 99% !important;
+    }
+}

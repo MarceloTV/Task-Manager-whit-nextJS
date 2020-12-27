@@ -3,18 +3,25 @@ import Link from 'next/link'
 import Button from '@material-ui/core/Button'
 import Tasks from '../components/Tasks'
 
+//Firebase Config
 import Firebase from '../conf/firebase.conf'
+
+//Styles CSS
+import stylesCss from '../styles/Views/Main.module.css'
 
 class Main extends Component{
 
+    //Firebase initialized
     firebase = Firebase()
 
     state = {
+        //This state contain if the user is logged and the user uid
         isLogged: false,
         user: null
     }
 
     componentDidMount(){
+        //check if the user is logged
         this.firebase.auth().onAuthStateChanged(user => {
             if(user){
                 this.setState({
@@ -29,6 +36,7 @@ class Main extends Component{
             }
         })
 
+        //Request the notification permission
         Notification.requestPermission().then( data => {
             this.forceUpdate()
         }).catch(err => {
@@ -37,6 +45,7 @@ class Main extends Component{
     }
 
     render(){
+        {/* If the user is logged show ths tasks component else show other elements */}
         return <main style={styles.main}>
             {this.state.isLogged ? 
                 <Tasks user={this.state.user}/>
@@ -44,7 +53,7 @@ class Main extends Component{
                 <div className="w-50">
                     <h2 style={styles.h2}>Do you have not logged yet?</h2>
                     <p style={styles.p}>well, SigIn or SignUp right now</p>
-                    <div className="w-50 mx-auto d-flex justify-content-around">
+                    <div className={`w-50 mx-auto d-flex justify-content-around ${stylesCss.btn_content}`}>
                         <Link href='/signin'>
                             <Button variant="contained" color="primary">
                                 SignIn

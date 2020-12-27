@@ -13,19 +13,27 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import TextField from '@material-ui/core/TextField'
 
+//Firebase config
 import Firebase from '../conf/firebase.conf'
 
-class Tasks extends Component{
+//Styles for tasks
+import styles from '../styles/Components/Tasks.module.css'
+
+class  Tasks extends Component{
 
     state = {
+        //the state "tasks" is to store the tasks and the state "open" is to open or close the dialog
         tasks: [],
         open: false
     }
 
+    //Initialize firebase ehit firestore
     firebase = Firebase().firestore()
 
+    //this property will be for check the time to notify the tasks
     checkTasks = null
 
+    //Delete Task
     deleteTask = async (e,id) => {
         e.currentTarget.disabled = true
         try{
@@ -37,6 +45,7 @@ class Tasks extends Component{
         }
     }
 
+    //Add Task
     addTask = (e) => {
         e.preventDefault()
         const [task_name,task_time,task_date] = [
@@ -61,6 +70,7 @@ class Tasks extends Component{
             day: new Date().getDate()
         }
 
+        //Check if the time is correct
         if(data_time.year < time.year){
             alert("Put the correct Time")
             return false
@@ -101,6 +111,7 @@ class Tasks extends Component{
         })
     }
 
+    //Get all user tasks
     getTask = async (user) => {
        try{
         const data = await this.firebase.collection("tasks").where("user","==",user).get()
@@ -122,6 +133,7 @@ class Tasks extends Component{
     }
 
     componentDidUpdate(){
+        //Create the Notification if there is a permission and there are tasks
         if(Notification.permission != "default" && this.state.tasks != 0){
             this.checkTasks = setInterval(() => {
                 this.state.tasks.forEach((v,i) => {
@@ -141,7 +153,8 @@ class Tasks extends Component{
                         minutes: v.task_time.split(":")[1]
                     }
 
-                   if(data_time.year == time.year){
+                    //Check when launch the task noyification
+                    if(data_time.year == time.year){
                         if(data_time.month == time.month){
                             if(data_time.date == time.day){
                                 if(data_time.hour == time.hour){
@@ -149,6 +162,8 @@ class Tasks extends Component{
                                         if(!v.notified){
                                             const notification = new Notification(`${v.task_name} still to be complete`)
                                             let tasks = this.state.tasks
+
+                                            //Update the property notified of the task for no repeate this action
                                             tasks[i].notified = true
                                             this.setState(tasks)
                                         }
@@ -168,8 +183,9 @@ class Tasks extends Component{
     }
 
     render(){
-        return <div className="w-50">
+        return <div className={`w-50 ${styles.appContent}`}>
 
+            {/* Dialog To add tasks */}
             <Dialog open={this.state.open} aria-labelledby="simple-dialog-title">
                 <DialogTitle id="simple-dialog-title">Add Task</DialogTitle>
 
@@ -214,6 +230,7 @@ class Tasks extends Component{
 
             <div className="d-flex w-100 justify-content-between align-items-center">
                 <h1>Tasks' Table</h1>
+                {/* Button to open the dialog */}
                 <Button variant='contained' onClick={() => this.setState({...this.state,open: true})}>
                     ➕
                 </Button>
@@ -232,6 +249,7 @@ class Tasks extends Component{
                     </TableHead>
 
                     <TableBody>
+                        {/* Tasks */}
                         {this.state.tasks.map((v,i) => <TableRow key={i}>
 
                                 <TableCell>{v.task_name}</TableCell>

@@ -1,0 +1,23 @@
+@media screen and (max-width: 670px){
+    .btn_content {
+        width: 65% !important;
+    }
+}
+
+@media screen and (max-width: 530px){
+    .btn_content {
+        width: 75% !important;
+    }
+}
+
+@media screen and (max-width: 450px){
+    .btn_content {
+        width: 85% !important;
+    }
+}
+
+@media screen and (max-width: 400px){
+    .btn_content {
+        width: 100% !important;
+    }
+}
