@@ -1,30 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Task Manager
 
-## Getting Started
+This is a web app building whit [NextJS](https://github.com/vercel/next.js/) and [Firebase](https://github.com/firebase/) that managment tasks and notify the user when the task must be realized , this tasks is saved in the firestore cloud
 
-First, run the development server:
+Link to <a href="https://task-manager-whit-next-js-abd10j2iw.vercel.app/">Task Manager</a>
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+<br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<img src="https://res.cloudinary.com/dtyobwis5/image/upload/v1609028388/Task%20Manager/main_ujjxag.jpg"/>
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+<br>
 
-## Learn More
+## SignUp and SignIn:
 
-To learn more about Next.js, take a look at the following resources:
+<br>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## signup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+To signup enter your email and the new password
 
-## Deploy on Vercel
+<img src="https://res.cloudinary.com/dtyobwis5/image/upload/v1609029364/Task%20Manager/signup_m9bhgz.jpg">
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<br>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## signin
+
+To signin in the app enter the data of the signup to example.
+
+<img src="https://res.cloudinary.com/dtyobwis5/image/upload/v1609030999/Task%20Manager/sigin_cmqegj.jpg">
+
+## Add Task
+
+To add Tasks we click in the "+" button and then we put the task name,time and date.
+
+<img src="https://res.cloudinary.com/dtyobwis5/image/upload/v1609031394/Task%20Manager/addTask_yvnfze.jpg">
+
+and then in the correct time the browser is going to launch a notification about the task
+
+<img src="https://res.cloudinary.com/dtyobwis5/image/upload/v1609028388/Task%20Manager/main_ujjxag.jpg"/>
