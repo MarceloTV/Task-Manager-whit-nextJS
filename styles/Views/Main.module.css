@@ -14,10 +14,10 @@
     .btn_content {
         width: 85% !important;
     }
-}
-
-@media screen and (max-width: 400px){
-    .btn_content {
-        width: 100% !important;
+    .h2{
+        font-size: 2.4rem !important;
+    }
+    .p{
+        font-size: 1.2rem !important;
     }
 }

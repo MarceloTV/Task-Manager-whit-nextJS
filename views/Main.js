@@ -51,8 +51,8 @@ class Main extends Component{
                 <Tasks user={this.state.user}/>
             :
                 <div className="w-50">
-                    <h2 style={styles.h2}>Do you have not logged yet?</h2>
-                    <p style={styles.p}>well, SigIn or SignUp right now</p>
+                    <h2 className={`${stylesCss.h2}`} style={styles.h2}>Do you have not logged yet?</h2>
+                    <p className={`${stylesCss.p}`} style={styles.p}>well, SigIn or SignUp right now</p>
                     <div className={`w-50 mx-auto d-flex justify-content-around ${stylesCss.btn_content}`}>
                         <Link href='/signin'>
                             <Button variant="contained" color="primary">
