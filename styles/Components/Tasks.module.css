@@ -18,12 +18,7 @@
 
 @media screen and (max-width: 586px){
     .appContent{
-        width: 90% !important;
-    }
-}
-
-@media screen and (max-width: 433px){
-    .appContent{
+        margin-top: 30px !important;
         width: 99% !important;
     }
 }

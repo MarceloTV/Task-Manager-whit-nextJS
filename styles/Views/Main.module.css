@@ -8,6 +8,10 @@
     .btn_content {
         width: 75% !important;
     }
+    .main{
+        display: block !important;
+        overflow-y: scroll !important;
+    }
 }
 
 @media screen and (max-width: 450px){

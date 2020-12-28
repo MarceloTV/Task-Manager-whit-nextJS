@@ -46,7 +46,7 @@ class Main extends Component{
 
     render(){
         {/* If the user is logged show ths tasks component else show other elements */}
-        return <main style={styles.main}>
+        return <main className={`${stylesCss.main}`} style={styles.main}>
             {this.state.isLogged ? 
                 <Tasks user={this.state.user}/>
             :
