@@ -12,6 +12,9 @@ class Form extends Component{
                     <input {...v} className="form-control"/>
                 </div>
             })}
+            {this.props.error &&
+                <p className="p-1 bg-danger text-center text-light">{this.props.message}</p>
+            }
             <Button variant="outlined" type="submit" color="secondary">
                 Send
             </Button>

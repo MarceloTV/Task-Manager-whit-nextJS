@@ -6,16 +6,18 @@ import Firebase from '../conf/firebase.conf'
 
 class SignIn extends Component{
 
+    state = {
+        error: false,
+        message: null
+    }
+
     firebase = Firebase()
 
     handle = (e) => {
         e.preventDefault()
         this.firebase.auth().signInWithEmailAndPassword(e.currentTarget.email.value,e.currentTarget.password.value)
-            .then(data => {
-                console.log(data)
-            })
             .catch(err => {
-                console.log(err)
+                this.setState({error:true,message: err.message})
             })
     }
 
@@ -31,7 +33,7 @@ class SignIn extends Component{
         })
 
         return <main style={styles.main}>
-            <Form handle={this.handle} inputs={inputs} title={"Type tour Data to SignIn"}/>
+            <Form handle={this.handle} message={this.state.message} error={this.state.error} inputs={inputs} title={"Type tour Data to SignIn"}/>
         </main>
     }
 }

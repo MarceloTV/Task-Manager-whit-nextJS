@@ -6,20 +6,22 @@ import Firebase from '../conf/firebase.conf'
 
 class SignUp extends Component{
 
+    state = {
+        message: null,
+        error: false
+    }
+
     firebase = Firebase()
 
     handle = (e) => {
         e.preventDefault()
         if(e.currentTarget.password.value != e.currentTarget.re_password.value){
-            alert("The password aren't equals")
+            this.setState({message: "The password aren't equals",error: true})
             return false
         }
         this.firebase.auth().createUserWithEmailAndPassword(e.currentTarget.email.value,e.currentTarget.password.value)
-            .then(data => {
-                console.log(data)
-            })
             .catch(error => {
-                console.log(error)
+                this.setState({message: error.message,error: true})
             })
     }
 
@@ -35,7 +37,7 @@ class SignUp extends Component{
         })
 
         return <main style={styles.main}>
-            <Form handle={this.handle} inputs={inputs} title={"Type tour Data to SignUp"}/>
+            <Form handle={this.handle} error={this.state.error} message={this.state.message} inputs={inputs} title={"Type your Data to SignUp"}/>
         </main>
     }
 }
